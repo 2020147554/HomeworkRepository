@@ -18,8 +18,6 @@
             console.log('Fetch problem: ' + err.message);
         });
 
-        
-
         function initialize(products) {
 
             const category = document.querySelector('#category');
@@ -33,26 +31,34 @@
             let categoryGroup;
             let finalGroup;
             let NewPage = true;
+            let CurrentPageDetailCheck = false;
+            let shownItemNum = 0;
 
             finalGroup = products;
             updateDisplay();
+            NewPage = false;
+            
+            window.onscroll = () => {
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                    setTimeout(updateDisplay(), 5000); 
+                }
+            }
 
-            categoryGroup = [];
-            finalGroup = [];
 
             searchBtn.onclick = selectCategory;
 
             function selectCategory(e) {
                 e.preventDefault();
 
-                categoryGroup = [];
-                finalGroup = [];
-
                 if ( category.value === lastCategory && searchWord.value.trim === lastSearch) {
                     return;
                 }
 
                 NewPage = true;
+                CurrentPageDetailCheck = false;
+                shownItemNum = 0;
+                categoryGroup = [];
+                finalGroup = [];
 
                 if(category.value === 'All') {
                     categoryGroup = products;
@@ -86,8 +92,12 @@
 
             function updateDisplay() {
 
-                    while (item.firstChild) {
+                    if (shownItemNum != 0) {NewPage = false;}
+
+                    if (NewPage) {
+                        while (item.firstChild) {
                         item.removeChild(item.firstChild);
+                        }
                     }
                     
                     if(finalGroup.length === 0) {
@@ -95,8 +105,13 @@
                         para.textContent = 'No results to display!';
                         item.appendChild(para);
                     } else {
-                        for (let i = 0; i< finalGroup.length; i++) {
-                        showProduct(finalGroup[i]);
+                        let temp = shownItemNum;
+                        if (shownItemNum < finalGroup.length) {
+                            for (let i = shownItemNum; i< temp + 4; i++) {
+                            showProduct(finalGroup[shownItemNum]);
+                            shownItemNum++;
+                            if (shownItemNum == finalGroup.length) {break;}
+                            }
                         }
                     }
             }
@@ -106,7 +121,7 @@
                 const Newitem = document.createElement("div");
                 Newitem.setAttribute('class', 'item');
 
-                let url = 'url(\'../LAB4/images/' + product.image + '.jpeg\')';
+                let url = 'url(\'../LAB/images/' + product.image + '.jpeg\')';
                 Newitem.style.backgroundImage = url;
                 Newitem.style.backgroundPosition = "center center";
                 Newitem.style.backgroundRepeat = "no-repeat";
@@ -126,12 +141,13 @@
             }
 
             function viewDetail() {
-                if (!NewPage) {
-                    let prev = document.getElementById('currentDetail');
-                    prev.setAttribute('id', 'none');
+                if (CurrentPageDetailCheck){
+                let prev = document.getElementById('currentDetail');
+                prev.setAttribute('id', 'none');
                 }
+                
                 this.setAttribute('id', 'currentDetail');
-                NewPage = false;
+                CurrentPageDetailCheck = true;
 
             }
 
@@ -187,7 +203,6 @@
                     정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과
                     버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어
                     새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어</p>
-                <p style="color: whitesmoke" id="blank"></p>
             </section>
 
         </div>
