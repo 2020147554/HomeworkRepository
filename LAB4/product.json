@@ -1,0 +1,22 @@
+[
+    { "name": "새우깡", "type" : "crisps", "image": "saeuggang", "price": 1000},
+    { "name": "포카칩", "type" : "crisps", "image": "pocachip", "price": 1000},
+    { "name": "바나나우유", "type" : "drink", "image": "bananamilk", "price": 500},
+    { "name": "메로나", "type" : "icecream", "image": "merona", "price": 800},
+    { "name": "생귤탱귤", "type" : "icecream", "image": "saengyultaengyul", "price": 800},
+    { "name": "삼다수", "type" : "drink", "image": "samdasu", "price": 600},
+    { "name": "칠성사이다", "type" : "drink", "image": "saida", "price": 700},
+    { "name": "펩시콜라", "type" : "drink", "image": "pepsi", "price": 700},
+    { "name": "질러 육포", "type" : "etc", "image": "zilu", "price": 2000},
+    { "name": "허니버터오징어", "type" : "etc", "image": "hbsquid", "price": 2000},
+    { "name": "포카리스웨트", "type" : "drink", "image": "pocari", "price": 700},
+    { "name": "스윙칩", "type" : "crisps", "image": "swing", "price": 1500},
+    { "name": "썬칩", "type" : "crisps", "image": "sun", "price": 1500},
+    { "name": "쌍쌍바", "type" : "icecream", "image": "ssangssang", "price": 1000},
+    { "name": "죠스바", "type" : "icecream", "image": "jaws", "price": 1000},
+    { "name": "수박바", "type" : "icecream", "image": "subak", "price": 1200},
+    { "name": "데자와", "type" : "drink", "image": "tejava", "price": 900},
+    { "name": "나쵸", "type" : "crisps", "image": "nacho", "price": 1500},
+    { "name": "양파링", "type" : "crisps", "image": "onionring", "price": 1500},
+    { "name": "감자깡", "type" : "crisps", "image": "potato", "price": 1200}
+]

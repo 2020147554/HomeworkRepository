@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>타이틀</title>
+    <link rel="stylesheet" type = "text/css" href="main.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700&display=swap" rel="stylesheet">
+            
+    <script>
+
+        fetch ("product.json")
+        .then (function(response) {
+            return response.json();
+        }).then(function(json) {
+            let products = json;
+            initialize(products);
+        }).catch(function(err) {
+            console.log('Fetch problem: ' + err.message);
+        });
+
+        
+
+        function initialize(products) {
+
+            const category = document.querySelector('#category');
+            const searchWord = document.querySelector('#searchWord');
+            const searchBtn = document.querySelector('#searchBtn');
+            const item = document.querySelector('item');
+
+            let lastCategory = category.value;
+            let lastSearch = '';
+
+            let categoryGroup;
+            let finalGroup;
+
+            let shownDataNum = 0;
+
+            finalGroup = products;
+            updateDisplay();
+
+            categoryGroup = [];
+            finalGroup = [];
+
+            searchBtn.onclick = selectCategory;
+
+            function selectCategory(e) {
+                shownDataNum = 0;
+                e.preventDefault();
+
+                categoryGroup = [];
+                finalGroup = [];
+
+                if ( category.value === lastCategory && searchWord.value.trim === lastSearch) {
+                    return;
+                }
+
+                if(category.value === 'All') {
+                    categoryGroup = products;
+                    selectProducts();
+                } else {
+                    let lowerCaseType = category.value.toLowerCase();
+                    for ( let i = 0; i < products.length; i ++) {
+                        if (products[i].type === lowerCaseType) {
+                            categoryGroup.push(products[i]);
+                        }
+                    }
+                    selectProducts();
+                }
+            }
+
+            function selectProducts() {
+                if(searchWord.value.trim() === '') {
+                    finalGroup = categoryGroup;
+                    updateDisplay();
+                } else {
+                    let lowerCaseSearchWord = searchWord.value.trim().toLowerCase();
+
+                    for (let i = 0; i < categoryGroup.length; i++) {
+                        if(categoryGroup[i].name.indexOf(lowerCaseSearchWord) !== -1) {
+                            finalGroup.push(categoryGroup[i]);
+                        }
+                    }
+                    updateDisplay();
+                }
+            }
+
+            function updateDisplay() {
+
+                    while (item.firstChild) {
+                        item.removeChild(item.firstChild);
+                    }
+
+                    if(finalGroup.length === 0) {
+                        const para = document.createElement('p');
+                        para.textContent = 'No results to display!';
+                        item.appendChild(para);
+                    } else {
+                        for (let i = 0; i< finalGroup.length; i++) {
+                        showProduct(finalGroup[i]);
+                        }
+                    }
+            }
+
+            function showProduct(product) {
+
+                const Newitem = document.createElement("div");
+                Newitem.setAttribute('class', 'item');
+
+                let url = 'url(\'../LAB4/images/' + product.image + '.jpeg\')';
+                Newitem.style.backgroundImage = url;
+                Newitem.style.backgroundPosition = "center center";
+                Newitem.style.backgroundRepeat = "no-repeat";
+                Newitem.style.backgroundSize = "300px 300px";
+                
+
+                Newitem.setAttribute('id', 'none');
+                const Newitem_detail = document.createElement("div");
+                Newitem_detail.setAttribute('class', 'detail');
+                Newitem_detail.innerHTML = "상품명: " + product.name + "<br />" + "가격: " + product.price + "원";
+                Newitem.appendChild(Newitem_detail);
+
+
+                Newitem.addEventListener("click", viewDetail);
+
+                item.appendChild(Newitem)
+            }
+
+            function viewDetail() {
+                let prev = document.getElementById('currentDetail');
+                prev.setAttribute('id', 'none');
+                this.setAttribute('id', 'currentDetail');
+
+            }
+
+        }
+
+    </script>
+
+</head>
+<body>
+    <div class = "uniformWidth">
+        <h1 class="sliding">환영합니다</h1>
+        <nav>
+            <ul>
+                <li class="currentPage">메인페이지</li>
+                <li><a href="login.html">로그인</a></li>
+                <li><a href="signup.html">회원가입</a></li>
+            </ul>
+        </nav>
+
+
+
+        <main>
+            <div class="dropdown">
+                <h2>Search</h2>
+                <label for = "category"> Choose a category </label>
+                <select id="category">
+                    <option selected>All</option>
+                    <option>crisps</option>
+                    <option>icecream</option>
+                    <option>drink</option>
+                    <option>etc</option>
+                </select>
+                <br />
+                <label for="searchWord">Search:</label>
+                <input type="text" id="searchWord" style="width:150px;"><br />
+                <button type="button" id="searchBtn">Filter results</button>
+            </div>
+            <item id="item">
+
+            </item>
+        </main>
+
+
+        <br >
+        <br >
+
+        <div>
+
+            <h2>소개</h2>
+
+            <section>
+                <p>새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는
+                    정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과
+                    버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어
+                    새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어</p>
+                <p style="color: whitesmoke" id="currentDetail"></p>
+            </section>
+
+        </div>
+
+        <br >
+        
+    </div>
+</body>
+</html>
