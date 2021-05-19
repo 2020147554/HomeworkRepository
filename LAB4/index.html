@@ -32,8 +32,7 @@
 
             let categoryGroup;
             let finalGroup;
-
-            let shownDataNum = 0;
+            let NewPage = true;
 
             finalGroup = products;
             updateDisplay();
@@ -44,7 +43,6 @@
             searchBtn.onclick = selectCategory;
 
             function selectCategory(e) {
-                shownDataNum = 0;
                 e.preventDefault();
 
                 categoryGroup = [];
@@ -53,6 +51,8 @@
                 if ( category.value === lastCategory && searchWord.value.trim === lastSearch) {
                     return;
                 }
+
+                NewPage = true;
 
                 if(category.value === 'All') {
                     categoryGroup = products;
@@ -89,7 +89,7 @@
                     while (item.firstChild) {
                         item.removeChild(item.firstChild);
                     }
-
+                    
                     if(finalGroup.length === 0) {
                         const para = document.createElement('p');
                         para.textContent = 'No results to display!';
@@ -126,9 +126,12 @@
             }
 
             function viewDetail() {
-                let prev = document.getElementById('currentDetail');
-                prev.setAttribute('id', 'none');
+                if (!NewPage) {
+                    let prev = document.getElementById('currentDetail');
+                    prev.setAttribute('id', 'none');
+                }
                 this.setAttribute('id', 'currentDetail');
+                NewPage = false;
 
             }
 
@@ -184,7 +187,7 @@
                     정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과
                     버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어
                     새우깡과생귤탱귤과버터오징어는정말맛있어새우깡과생귤탱귤과버터오징어는정말맛있어</p>
-                <p style="color: whitesmoke" id="currentDetail"></p>
+                <p style="color: whitesmoke" id="blank"></p>
             </section>
 
         </div>
